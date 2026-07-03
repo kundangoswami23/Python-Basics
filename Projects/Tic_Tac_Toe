@@ -1,1 +1,178 @@
+import os
 
+
+class TicTacToe:
+
+    def __init__(self):
+        self.board = [" " for _ in range(9)]
+        self.current_player = "X"
+
+    # ----------------------------
+    # Display Board
+    # ----------------------------
+    def display_board(self):
+
+        print("\n")
+        print(f" {self.board[0]} | {self.board[1]} | {self.board[2]} ")
+        print("---+---+---")
+        print(f" {self.board[3]} | {self.board[4]} | {self.board[5]} ")
+        print("---+---+---")
+        print(f" {self.board[6]} | {self.board[7]} | {self.board[8]} ")
+        print()
+
+    # ----------------------------
+    # Display Positions
+    # ----------------------------
+    def display_positions(self):
+
+        print("\nBoard Positions\n")
+
+        print(" 1 | 2 | 3 ")
+        print("---+---+---")
+        print(" 4 | 5 | 6 ")
+        print("---+---+---")
+        print(" 7 | 8 | 9 ")
+
+    # ----------------------------
+    # Player Move
+    # ----------------------------
+    def player_move(self):
+
+        while True:
+
+            try:
+                move = int(input(f"\nPlayer {self.current_player}, Enter Position (1-9): ")) - 1
+
+                if move < 0 or move > 8:
+                    print("Choose a number between 1 and 9.")
+                    continue
+
+                if self.board[move] != " ":
+                    print("Position already occupied.")
+                    continue
+
+                self.board[move] = self.current_player
+                break
+
+            except ValueError:
+                print("Invalid Input.")
+
+    # ----------------------------
+    # Check Winner
+    # ----------------------------
+    def check_winner(self):
+
+        winning_positions = [
+
+            (0,1,2),
+            (3,4,5),
+            (6,7,8),
+
+            (0,3,6),
+            (1,4,7),
+            (2,5,8),
+
+            (0,4,8),
+            (2,4,6)
+        ]
+
+        for a, b, c in winning_positions:
+
+            if self.board[a] == self.board[b] == self.board[c] != " ":
+                return True
+
+        return False
+
+    # ----------------------------
+    # Check Draw
+    # ----------------------------
+    def check_draw(self):
+        return " " not in self.board
+
+    # ----------------------------
+    # Switch Player
+    # ----------------------------
+    def switch_player(self):
+
+        if self.current_player == "X":
+            self.current_player = "O"
+        else:
+            self.current_player = "X"
+
+    # ----------------------------
+    # Reset Game
+    # ----------------------------
+    def reset_game(self):
+        self.board = [" " for _ in range(9)]
+        self.current_player = "X"
+
+    # ----------------------------
+    # Play Game
+    # ----------------------------
+    def play(self):
+
+        self.reset_game()
+
+        self.display_positions()
+
+        while True:
+
+            self.display_board()
+
+            self.player_move()
+
+            if self.check_winner():
+
+                self.display_board()
+
+                print(f"Congratulations! Player {self.current_player} Wins!")
+
+                break
+
+            if self.check_draw():
+
+                self.display_board()
+
+                print("Game Draw!")
+
+                break
+
+            self.switch_player()
+
+    # ----------------------------
+    # Menu
+    # ----------------------------
+    def menu(self):
+
+        while True:
+
+            print("\n" + "=" * 45)
+            print("        TIC TAC TOE GAME")
+            print("=" * 45)
+            print("1. Play Game")
+            print("2. Show Board Positions")
+            print("3. Exit")
+            print("=" * 45)
+
+            choice = input("Enter Your Choice: ")
+
+            if choice == "1":
+                self.play()
+
+            elif choice == "2":
+                self.display_positions()
+
+            elif choice == "3":
+                print("\nThank You For Playing!")
+                break
+
+            else:
+                print("Invalid Choice! Try Again.")
+
+
+if __name__ == "__main__":
+
+    os.system("cls" if os.name == "nt" else "clear")
+
+    game = TicTacToe()
+    game.menu()
