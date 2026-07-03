@@ -7,22 +7,27 @@ Welcome to my Python learning repository.
 - Variables
 - Data Types
 - Operators
-- If Else
+- Input & Output
+- Conditional Statements
 - Loops
 - Functions
 - Strings
 - Lists
 - Tuples
-- Dictionary
 - Sets
+- Dictionary
 - File Handling
-- OOP
 - Exception Handling
+- OOP
+- NumPy
+- Pandas
 
-## 🎯 Goal
+## 🚀 Projects
 
-Improve Python programming skills through daily practice.
+- Calculator
+- Student Management System
+- Expense Tracker
+- Number Guessing Game
+- To Do List
 
-## 👨‍💻 Author
-
-Kundan Goswami
+Created by **Kundan Goswami**
