@@ -1,1 +1,166 @@
+from datetime import datetime
 
+
+class ExpenseTracker:
+
+    def __init__(self):
+        self.expenses = []
+
+    def add_expense(self):
+        print("\n========== ADD EXPENSE ==========")
+
+        category = input("Category (Food/Travel/Shopping/etc): ").title()
+
+        description = input("Description: ")
+
+        try:
+            amount = float(input("Amount (₹): "))
+
+            if amount <= 0:
+                print("Amount must be greater than 0.")
+                return
+
+        except ValueError:
+            print("Invalid amount.")
+            return
+
+        expense = {
+            "Date": datetime.now().strftime("%d-%m-%Y %H:%M"),
+            "Category": category,
+            "Description": description,
+            "Amount": amount
+        }
+
+        self.expenses.append(expense)
+
+        print("Expense Added Successfully!")
+
+    def view_expenses(self):
+
+        print("\n========== ALL EXPENSES ==========")
+
+        if not self.expenses:
+            print("No expenses found.")
+            return
+
+        print("-" * 90)
+        print(f"{'Date':18} {'Category':15} {'Description':25} {'Amount'}")
+        print("-" * 90)
+
+        for expense in self.expenses:
+            print(
+                f"{expense['Date']:18} "
+                f"{expense['Category']:15} "
+                f"{expense['Description']:25} "
+                f"₹{expense['Amount']:.2f}"
+            )
+
+    def total_expense(self):
+
+        total = sum(expense["Amount"] for expense in self.expenses)
+
+        print(f"\nTotal Expense : ₹{total:.2f}")
+
+    def category_summary(self):
+
+        print("\n========== CATEGORY SUMMARY ==========")
+
+        if not self.expenses:
+            print("No expenses available.")
+            return
+
+        summary = {}
+
+        for expense in self.expenses:
+
+            category = expense["Category"]
+
+            summary[category] = summary.get(category, 0) + expense["Amount"]
+
+        print("-" * 40)
+
+        for category, amount in summary.items():
+            print(f"{category:20} ₹{amount:.2f}")
+
+    def highest_expense(self):
+
+        if not self.expenses:
+            print("No expenses available.")
+            return
+
+        highest = max(self.expenses, key=lambda x: x["Amount"])
+
+        print("\n========== HIGHEST EXPENSE ==========")
+
+        print(f"Date        : {highest['Date']}")
+        print(f"Category    : {highest['Category']}")
+        print(f"Description : {highest['Description']}")
+        print(f"Amount      : ₹{highest['Amount']:.2f}")
+
+    def delete_expense(self):
+
+        if not self.expenses:
+            print("No expenses available.")
+            return
+
+        self.view_expenses()
+
+        try:
+            index = int(input("\nEnter Expense Number to Delete: ")) - 1
+
+            if 0 <= index < len(self.expenses):
+                self.expenses.pop(index)
+                print("Expense Deleted Successfully!")
+            else:
+                print("Invalid Number.")
+
+        except ValueError:
+            print("Invalid Input.")
+
+    def menu(self):
+
+        while True:
+
+            print("\n" + "=" * 50)
+            print("        PERSONAL EXPENSE TRACKER")
+            print("=" * 50)
+            print("1. Add Expense")
+            print("2. View Expenses")
+            print("3. Total Expense")
+            print("4. Category Summary")
+            print("5. Highest Expense")
+            print("6. Delete Expense")
+            print("7. Exit")
+            print("=" * 50)
+
+            choice = input("Enter Your Choice: ")
+
+            if choice == "1":
+                self.add_expense()
+
+            elif choice == "2":
+                self.view_expenses()
+
+            elif choice == "3":
+                self.total_expense()
+
+            elif choice == "4":
+                self.category_summary()
+
+            elif choice == "5":
+                self.highest_expense()
+
+            elif choice == "6":
+                self.delete_expense()
+
+            elif choice == "7":
+                print("\nThank You For Using Expense Tracker!")
+                break
+
+            else:
+                print("Invalid Choice! Please Try Again.")
+
+
+if __name__ == "__main__":
+    tracker = ExpenseTracker()
+    tracker.menu()
