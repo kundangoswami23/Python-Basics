@@ -1,1 +1,315 @@
+from datetime import datetime
 
+
+class LibraryManagementSystem:
+
+    def __init__(self):
+        self.books = [
+            {
+                "id": 101,
+                "title": "Python Programming",
+                "author": "John Smith",
+                "available": True
+            },
+            {
+                "id": 102,
+                "title": "Data Structures",
+                "author": "Mark Lee",
+                "available": True
+            },
+            {
+                "id": 103,
+                "title": "Machine Learning",
+                "author": "Andrew Ng",
+                "available": True
+            },
+            {
+                "id": 104,
+                "title": "SQL Basics",
+                "author": "David Miller",
+                "available": True
+            },
+            {
+                "id": 105,
+                "title": "Operating System",
+                "author": "Abraham Silberschatz",
+                "available": True
+            }
+        ]
+
+        self.issued_books = []
+
+    # ----------------------------
+    # Add Book
+    # ----------------------------
+    def add_book(self):
+
+        print("\n========== ADD NEW BOOK ==========")
+
+        try:
+            book_id = int(input("Book ID : "))
+        except ValueError:
+            print("Invalid ID.")
+            return
+
+        title = input("Book Title : ").title()
+        author = input("Author Name : ").title()
+
+        for book in self.books:
+            if book["id"] == book_id:
+                print("Book ID already exists.")
+                return
+
+        self.books.append({
+            "id": book_id,
+            "title": title,
+            "author": author,
+            "available": True
+        })
+
+        print("Book Added Successfully!")
+
+    # ----------------------------
+    # View Books
+    # ----------------------------
+    def view_books(self):
+
+        print("\n========== LIBRARY BOOKS ==========")
+
+        if not self.books:
+            print("No books available.")
+            return
+
+        print("-" * 75)
+        print(f"{'ID':<8}{'TITLE':<28}{'AUTHOR':<25}{'STATUS'}")
+        print("-" * 75)
+
+        for book in self.books:
+            status = "Available" if book["available"] else "Issued"
+
+            print(
+                f"{book['id']:<8}"
+                f"{book['title']:<28}"
+                f"{book['author']:<25}"
+                f"{status}"
+            )
+
+    # ----------------------------
+    # Search Book
+    # ----------------------------
+    def search_book(self):
+
+        keyword = input("\nEnter Book Title : ").lower()
+
+        found = False
+
+        for book in self.books:
+
+            if keyword in book["title"].lower():
+
+                found = True
+
+                print("\nBook Found")
+                print("-" * 35)
+                print("Book ID :", book["id"])
+                print("Title   :", book["title"])
+                print("Author  :", book["author"])
+                print(
+                    "Status  :",
+                    "Available" if book["available"] else "Issued"
+                )
+
+        if not found:
+            print("Book Not Found.")
+
+    # ----------------------------
+    # Issue Book
+    # ----------------------------
+    def issue_book(self):
+
+        try:
+            book_id = int(input("\nEnter Book ID : "))
+        except ValueError:
+            print("Invalid ID.")
+            return
+
+        student = input("Student Name : ").title()
+
+        for book in self.books:
+
+            if book["id"] == book_id:
+
+                if not book["available"]:
+                    print("Book Already Issued.")
+                    return
+
+                book["available"] = False
+
+                self.issued_books.append({
+                    "book_id": book_id,
+                    "title": book["title"],
+                    "student": student,
+                    "date": datetime.now().strftime("%d-%m-%Y")
+                })
+
+                print("Book Issued Successfully!")
+                return
+
+        print("Book ID Not Found.")
+
+    # ----------------------------
+    # Return Book
+    # ----------------------------
+    def return_book(self):
+
+        try:
+            book_id = int(input("\nEnter Book ID : "))
+        except ValueError:
+            print("Invalid ID.")
+            return
+
+        for book in self.books:
+
+            if book["id"] == book_id:
+
+                if book["available"]:
+                    print("Book is already available.")
+                    return
+
+                book["available"] = True
+
+                self.issued_books = [
+                    issue for issue in self.issued_books
+                    if issue["book_id"] != book_id
+                ]
+
+                print("Book Returned Successfully!")
+                return
+
+        print("Book ID Not Found.")
+
+    # ----------------------------
+    # Issued Books
+    # ----------------------------
+    def issued_book_list(self):
+
+        print("\n========== ISSUED BOOKS ==========")
+
+        if not self.issued_books:
+            print("No books are issued.")
+            return
+
+        print("-" * 70)
+        print(f"{'Book ID':<10}{'Title':<25}{'Student':<20}{'Date'}")
+        print("-" * 70)
+
+        for issue in self.issued_books:
+
+            print(
+                f"{issue['book_id']:<10}"
+                f"{issue['title']:<25}"
+                f"{issue['student']:<20}"
+                f"{issue['date']}"
+            )
+
+    # ----------------------------
+    # Delete Book
+    # ----------------------------
+    def delete_book(self):
+
+        try:
+            book_id = int(input("\nEnter Book ID : "))
+        except ValueError:
+            print("Invalid ID.")
+            return
+
+        for book in self.books:
+
+            if book["id"] == book_id:
+
+                if not book["available"]:
+                    print("Issued Book Cannot Be Deleted.")
+                    return
+
+                self.books.remove(book)
+
+                print("Book Deleted Successfully!")
+                return
+
+        print("Book Not Found.")
+
+    # ----------------------------
+    # Total Books
+    # ----------------------------
+    def total_books(self):
+
+        print("\n========== LIBRARY SUMMARY ==========")
+
+        total = len(self.books)
+
+        available = sum(book["available"] for book in self.books)
+
+        issued = total - available
+
+        print("Total Books      :", total)
+        print("Available Books  :", available)
+        print("Issued Books     :", issued)
+
+    # ----------------------------
+    # Menu
+    # ----------------------------
+    def menu(self):
+
+        while True:
+
+            print("\n" + "=" * 55)
+            print("         LIBRARY MANAGEMENT SYSTEM")
+            print("=" * 55)
+            print("1. View All Books")
+            print("2. Add New Book")
+            print("3. Search Book")
+            print("4. Issue Book")
+            print("5. Return Book")
+            print("6. Issued Books List")
+            print("7. Delete Book")
+            print("8. Library Summary")
+            print("9. Exit")
+            print("=" * 55)
+
+            choice = input("Enter Choice : ")
+
+            if choice == "1":
+                self.view_books()
+
+            elif choice == "2":
+                self.add_book()
+
+            elif choice == "3":
+                self.search_book()
+
+            elif choice == "4":
+                self.issue_book()
+
+            elif choice == "5":
+                self.return_book()
+
+            elif choice == "6":
+                self.issued_book_list()
+
+            elif choice == "7":
+                self.delete_book()
+
+            elif choice == "8":
+                self.total_books()
+
+            elif choice == "9":
+                print("\nThank You For Using Library Management System.")
+                break
+
+            else:
+                print("Invalid Choice! Please Try Again.")
+
+
+if __name__ == "__main__":
+    app = LibraryManagementSystem()
+    app.menu()
