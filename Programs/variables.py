@@ -1,1 +1,5 @@
-dsfsd
+name="Kundan"
+age=22
+
+print(name)
+print(age)
