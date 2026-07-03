@@ -1,1 +1,162 @@
+from datetime import datetime
 
+
+class ATM:
+    def __init__(self, name, pin, balance=5000):
+        self.name = name
+        self.pin = pin
+        self.balance = balance
+        self.transactions = []
+
+    def add_transaction(self, message):
+        time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        self.transactions.append(f"[{time}] {message}")
+
+    def login(self):
+        print("\n===== ATM LOGIN =====")
+
+        for attempt in range(3):
+            entered_pin = input("Enter 4-Digit PIN: ")
+
+            if entered_pin == self.pin:
+                print(f"\nWelcome, {self.name}!")
+                return True
+
+            print("Incorrect PIN!")
+
+        print("\nAccount Blocked! Too many failed attempts.")
+        return False
+
+    def check_balance(self):
+        print(f"\nAvailable Balance: ₹{self.balance:.2f}")
+        self.add_transaction(f"Balance Checked - ₹{self.balance:.2f}")
+
+    def deposit(self):
+        try:
+            amount = float(input("Enter amount to deposit: ₹"))
+
+            if amount <= 0:
+                print("Amount must be greater than zero.")
+                return
+
+            self.balance += amount
+
+            print(f"₹{amount:.2f} deposited successfully.")
+            self.add_transaction(f"Deposited ₹{amount:.2f}")
+
+        except ValueError:
+            print("Invalid input!")
+
+    def withdraw(self):
+        try:
+            amount = float(input("Enter amount to withdraw: ₹"))
+
+            if amount <= 0:
+                print("Amount must be greater than zero.")
+                return
+
+            if amount > self.balance:
+                print("Insufficient Balance!")
+                return
+
+            self.balance -= amount
+
+            print(f"Please collect your cash: ₹{amount:.2f}")
+            self.add_transaction(f"Withdrawn ₹{amount:.2f}")
+
+        except ValueError:
+            print("Invalid input!")
+
+    def change_pin(self):
+        current_pin = input("Enter current PIN: ")
+
+        if current_pin != self.pin:
+            print("Wrong PIN!")
+            return
+
+        new_pin = input("Enter new PIN: ")
+
+        if len(new_pin) != 4 or not new_pin.isdigit():
+            print("PIN must be 4 digits.")
+            return
+
+        confirm_pin = input("Confirm new PIN: ")
+
+        if new_pin != confirm_pin:
+            print("PINs do not match!")
+            return
+
+        self.pin = new_pin
+
+        print("PIN changed successfully.")
+        self.add_transaction("PIN Changed")
+
+    def transaction_history(self):
+        print("\n===== TRANSACTION HISTORY =====")
+
+        if not self.transactions:
+            print("No transactions found.")
+            return
+
+        for transaction in self.transactions:
+            print(transaction)
+
+    def menu(self):
+        while True:
+            print("\n" + "=" * 40)
+            print("         ATM MANAGEMENT SYSTEM")
+            print("=" * 40)
+            print("1. Check Balance")
+            print("2. Deposit Money")
+            print("3. Withdraw Money")
+            print("4. Change PIN")
+            print("5. Transaction History")
+            print("6. Account Details")
+            print("7. Exit")
+            print("=" * 40)
+
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                self.check_balance()
+
+            elif choice == "2":
+                self.deposit()
+
+            elif choice == "3":
+                self.withdraw()
+
+            elif choice == "4":
+                self.change_pin()
+
+            elif choice == "5":
+                self.transaction_history()
+
+            elif choice == "6":
+                print("\n===== ACCOUNT DETAILS =====")
+                print(f"Account Holder : {self.name}")
+                print(f"Current Balance: ₹{self.balance:.2f}")
+
+            elif choice == "7":
+                print("\nThank you for using our ATM.")
+                print("Have a nice day!")
+                break
+
+            else:
+                print("Invalid choice. Please try again.")
+
+
+# ==========================
+# Main Program
+# ==========================
+
+if __name__ == "__main__":
+
+    atm = ATM(
+        name="Kundan Goswami",
+        pin="1234",
+        balance=10000
+    )
+
+    if atm.login():
+        atm.menu()
