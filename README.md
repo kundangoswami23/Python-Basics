@@ -10,6 +10,7 @@ Welcome to my Python learning repository.
 - If Else
 - Loops
 - Functions
+- Strings
 - Lists
 - Tuples
 - Dictionary
