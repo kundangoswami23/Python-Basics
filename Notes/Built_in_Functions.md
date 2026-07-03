@@ -1,0 +1,15 @@
+# 🔥 Python Built-in Functions
+
+- print()
+- input()
+- len()
+- type()
+- range()
+- sum()
+- max()
+- min()
+- sorted()
+- zip()
+- map()
+- filter()
+- enumerate()
