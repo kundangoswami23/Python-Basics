@@ -1,1 +1,191 @@
+import math
 
+
+class Calculator:
+    def __init__(self):
+        self.history = []
+
+    def add_history(self, expression, result):
+        self.history.append(f"{expression} = {result}")
+
+    def show_history(self):
+        print("\n========== CALCULATION HISTORY ==========")
+
+        if not self.history:
+            print("No calculations found.")
+            return
+
+        for i, item in enumerate(self.history, start=1):
+            print(f"{i}. {item}")
+
+    def clear_history(self):
+        self.history.clear()
+        print("History Cleared Successfully.")
+
+    def calculate(self):
+
+        while True:
+
+            print("\n" + "=" * 50)
+            print("         PROFESSIONAL PYTHON CALCULATOR")
+            print("=" * 50)
+            print("1. Addition (+)")
+            print("2. Subtraction (-)")
+            print("3. Multiplication (*)")
+            print("4. Division (/)")
+            print("5. Power (x^y)")
+            print("6. Square Root")
+            print("7. Modulus (%)")
+            print("8. Floor Division (//)")
+            print("9. Factorial")
+            print("10. Trigonometry")
+            print("11. Logarithm")
+            print("12. Show History")
+            print("13. Clear History")
+            print("14. Exit")
+            print("=" * 50)
+
+            choice = input("Enter your choice: ")
+
+            try:
+
+                if choice == "1":
+                    a = float(input("First Number: "))
+                    b = float(input("Second Number: "))
+                    result = a + b
+                    print("Result =", result)
+                    self.add_history(f"{a} + {b}", result)
+
+                elif choice == "2":
+                    a = float(input("First Number: "))
+                    b = float(input("Second Number: "))
+                    result = a - b
+                    print("Result =", result)
+                    self.add_history(f"{a} - {b}", result)
+
+                elif choice == "3":
+                    a = float(input("First Number: "))
+                    b = float(input("Second Number: "))
+                    result = a * b
+                    print("Result =", result)
+                    self.add_history(f"{a} * {b}", result)
+
+                elif choice == "4":
+                    a = float(input("First Number: "))
+                    b = float(input("Second Number: "))
+
+                    if b == 0:
+                        print("Division by zero is not allowed.")
+                        continue
+
+                    result = a / b
+                    print("Result =", result)
+                    self.add_history(f"{a} / {b}", result)
+
+                elif choice == "5":
+                    a = float(input("Base: "))
+                    b = float(input("Power: "))
+                    result = a ** b
+                    print("Result =", result)
+                    self.add_history(f"{a}^{b}", result)
+
+                elif choice == "6":
+                    a = float(input("Enter Number: "))
+
+                    if a < 0:
+                        print("Negative numbers are not allowed.")
+                        continue
+
+                    result = math.sqrt(a)
+                    print("Result =", result)
+                    self.add_history(f"√{a}", result)
+
+                elif choice == "7":
+                    a = float(input("First Number: "))
+                    b = float(input("Second Number: "))
+                    result = a % b
+                    print("Result =", result)
+                    self.add_history(f"{a} % {b}", result)
+
+                elif choice == "8":
+                    a = float(input("First Number: "))
+                    b = float(input("Second Number: "))
+                    result = a // b
+                    print("Result =", result)
+                    self.add_history(f"{a} // {b}", result)
+
+                elif choice == "9":
+                    n = int(input("Enter Integer: "))
+
+                    if n < 0:
+                        print("Factorial is not defined.")
+                        continue
+
+                    result = math.factorial(n)
+                    print("Result =", result)
+                    self.add_history(f"{n}!", result)
+
+                elif choice == "10":
+
+                    print("\n1. Sin")
+                    print("2. Cos")
+                    print("3. Tan")
+
+                    t = input("Choose: ")
+
+                    angle = float(input("Enter Angle (Degrees): "))
+                    rad = math.radians(angle)
+
+                    if t == "1":
+                        result = math.sin(rad)
+                        print("Sin =", result)
+                        self.add_history(f"sin({angle})", result)
+
+                    elif t == "2":
+                        result = math.cos(rad)
+                        print("Cos =", result)
+                        self.add_history(f"cos({angle})", result)
+
+                    elif t == "3":
+                        result = math.tan(rad)
+                        print("Tan =", result)
+                        self.add_history(f"tan({angle})", result)
+
+                    else:
+                        print("Invalid Choice.")
+
+                elif choice == "11":
+
+                    num = float(input("Enter Number: "))
+
+                    if num <= 0:
+                        print("Logarithm only works for positive numbers.")
+                        continue
+
+                    result = math.log10(num)
+                    print("Log10 =", result)
+                    self.add_history(f"log({num})", result)
+
+                elif choice == "12":
+                    self.show_history()
+
+                elif choice == "13":
+                    self.clear_history()
+
+                elif choice == "14":
+                    print("\nThank you for using Professional Calculator.")
+                    break
+
+                else:
+                    print("Invalid Choice.")
+
+            except ValueError:
+                print("Please enter valid numbers.")
+
+            except Exception as e:
+                print("Error:", e)
+
+
+if __name__ == "__main__":
+    calc = Calculator()
+    calc.calculate()
