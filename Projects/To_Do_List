@@ -1,1 +1,249 @@
+from datetime import datetime
 
+
+class TodoList:
+
+    def __init__(self):
+        self.tasks = []
+
+    # -----------------------------
+    # Add Task
+    # -----------------------------
+    def add_task(self):
+
+        print("\n========== ADD NEW TASK ==========")
+
+        title = input("Task Title : ").strip()
+
+        if not title:
+            print("Task title cannot be empty.")
+            return
+
+        priority = input("Priority (High/Medium/Low) : ").title()
+
+        due_date = input("Due Date (DD-MM-YYYY) : ")
+
+        task = {
+            "Title": title,
+            "Priority": priority,
+            "Due Date": due_date,
+            "Status": "Pending",
+            "Created": datetime.now().strftime("%d-%m-%Y %H:%M")
+        }
+
+        self.tasks.append(task)
+
+        print("\nTask Added Successfully!")
+
+    # -----------------------------
+    # View Tasks
+    # -----------------------------
+    def view_tasks(self):
+
+        print("\n========== YOUR TASKS ==========")
+
+        if not self.tasks:
+            print("No Tasks Available.")
+            return
+
+        print("-" * 95)
+        print(f"{'No':<5}{'Task':<30}{'Priority':<12}{'Status':<12}{'Due Date'}")
+        print("-" * 95)
+
+        for i, task in enumerate(self.tasks, start=1):
+
+            print(
+                f"{i:<5}"
+                f"{task['Title']:<30}"
+                f"{task['Priority']:<12}"
+                f"{task['Status']:<12}"
+                f"{task['Due Date']}"
+            )
+
+    # -----------------------------
+    # Complete Task
+    # -----------------------------
+    def complete_task(self):
+
+        if not self.tasks:
+            print("No Tasks Available.")
+            return
+
+        self.view_tasks()
+
+        try:
+            index = int(input("\nEnter Task Number : ")) - 1
+
+            if 0 <= index < len(self.tasks):
+                self.tasks[index]["Status"] = "Completed"
+                print("Task Marked as Completed!")
+
+            else:
+                print("Invalid Task Number.")
+
+        except ValueError:
+            print("Invalid Input.")
+
+    # -----------------------------
+    # Update Task
+    # -----------------------------
+    def update_task(self):
+
+        if not self.tasks:
+            print("No Tasks Available.")
+            return
+
+        self.view_tasks()
+
+        try:
+            index = int(input("\nEnter Task Number : ")) - 1
+
+            if not (0 <= index < len(self.tasks)):
+                print("Invalid Task Number.")
+                return
+
+            print("\nLeave Blank To Keep Old Value")
+
+            title = input("New Task Title : ")
+            priority = input("New Priority : ")
+            due = input("New Due Date : ")
+
+            if title:
+                self.tasks[index]["Title"] = title
+
+            if priority:
+                self.tasks[index]["Priority"] = priority.title()
+
+            if due:
+                self.tasks[index]["Due Date"] = due
+
+            print("Task Updated Successfully!")
+
+        except ValueError:
+            print("Invalid Input.")
+
+    # -----------------------------
+    # Delete Task
+    # -----------------------------
+    def delete_task(self):
+
+        if not self.tasks:
+            print("No Tasks Available.")
+            return
+
+        self.view_tasks()
+
+        try:
+            index = int(input("\nEnter Task Number : ")) - 1
+
+            if 0 <= index < len(self.tasks):
+
+                deleted = self.tasks.pop(index)
+
+                print(f"{deleted['Title']} Deleted Successfully!")
+
+            else:
+                print("Invalid Task Number.")
+
+        except ValueError:
+            print("Invalid Input.")
+
+    # -----------------------------
+    # Search Task
+    # -----------------------------
+    def search_task(self):
+
+        keyword = input("\nEnter Task Name : ").lower()
+
+        found = False
+
+        for i, task in enumerate(self.tasks, start=1):
+
+            if keyword in task["Title"].lower():
+
+                found = True
+
+                print("-" * 60)
+                print(f"Task No : {i}")
+                print(f"Title   : {task['Title']}")
+                print(f"Priority: {task['Priority']}")
+                print(f"Status  : {task['Status']}")
+                print(f"Due Date: {task['Due Date']}")
+
+        if not found:
+            print("Task Not Found.")
+
+    # -----------------------------
+    # Summary
+    # -----------------------------
+    def summary(self):
+
+        total = len(self.tasks)
+
+        completed = sum(
+            task["Status"] == "Completed"
+            for task in self.tasks
+        )
+
+        pending = total - completed
+
+        print("\n========== TASK SUMMARY ==========")
+        print(f"Total Tasks      : {total}")
+        print(f"Completed Tasks  : {completed}")
+        print(f"Pending Tasks    : {pending}")
+
+    # -----------------------------
+    # Menu
+    # -----------------------------
+    def menu(self):
+
+        while True:
+
+            print("\n" + "=" * 55)
+            print("           TO-DO LIST MANAGER")
+            print("=" * 55)
+            print("1. Add Task")
+            print("2. View Tasks")
+            print("3. Mark Task Completed")
+            print("4. Update Task")
+            print("5. Delete Task")
+            print("6. Search Task")
+            print("7. Task Summary")
+            print("8. Exit")
+            print("=" * 55)
+
+            choice = input("Enter Your Choice : ")
+
+            if choice == "1":
+                self.add_task()
+
+            elif choice == "2":
+                self.view_tasks()
+
+            elif choice == "3":
+                self.complete_task()
+
+            elif choice == "4":
+                self.update_task()
+
+            elif choice == "5":
+                self.delete_task()
+
+            elif choice == "6":
+                self.search_task()
+
+            elif choice == "7":
+                self.summary()
+
+            elif choice == "8":
+                print("\nThank You For Using To-Do List Manager!")
+                break
+
+            else:
+                print("Invalid Choice! Please Try Again.")
+
+
+if __name__ == "__main__":
+
+    app = TodoList()
+    app.menu()
