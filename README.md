@@ -1,2 +1,27 @@
-# Python-Basics
-Python programs and problem solving from beginner to advanced.
+# 🐍 Python Basics
+
+Welcome to my Python learning repository.
+
+## 📚 Topics Covered
+
+- Variables
+- Data Types
+- Operators
+- If Else
+- Loops
+- Functions
+- Lists
+- Tuples
+- Dictionary
+- Sets
+- File Handling
+- OOP
+- Exception Handling
+
+## 🎯 Goal
+
+Improve Python programming skills through daily practice.
+
+## 👨‍💻 Author
+
+Kundan Goswami
