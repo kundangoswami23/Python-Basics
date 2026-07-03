@@ -1,1 +1,145 @@
+import os
 
+
+class ContactBook:
+    def __init__(self):
+        self.contacts = {}
+
+    def add_contact(self):
+        print("\n========== ADD NEW CONTACT ==========")
+
+        name = input("Enter Name : ").strip().title()
+
+        if name in self.contacts:
+            print("Contact already exists!")
+            return
+
+        phone = input("Enter Phone Number : ").strip()
+        email = input("Enter Email : ").strip()
+        address = input("Enter Address : ").strip()
+
+        self.contacts[name] = {
+            "Phone": phone,
+            "Email": email,
+            "Address": address
+        }
+
+        print(f"\n{name} added successfully.")
+
+    def view_contacts(self):
+        print("\n========== ALL CONTACTS ==========")
+
+        if not self.contacts:
+            print("No contacts found.")
+            return
+
+        print("-" * 80)
+        print(f"{'Name':20} {'Phone':15} {'Email':25}")
+        print("-" * 80)
+
+        for name, info in sorted(self.contacts.items()):
+            print(f"{name:20} {info['Phone']:15} {info['Email']:25}")
+
+    def search_contact(self):
+        print("\n========== SEARCH CONTACT ==========")
+
+        name = input("Enter Contact Name : ").strip().title()
+
+        if name in self.contacts:
+            info = self.contacts[name]
+
+            print("\nContact Found")
+            print("-" * 40)
+            print(f"Name    : {name}")
+            print(f"Phone   : {info['Phone']}")
+            print(f"Email   : {info['Email']}")
+            print(f"Address : {info['Address']}")
+        else:
+            print("Contact not found.")
+
+    def update_contact(self):
+        print("\n========== UPDATE CONTACT ==========")
+
+        name = input("Enter Contact Name : ").strip().title()
+
+        if name not in self.contacts:
+            print("Contact not found.")
+            return
+
+        phone = input("New Phone (Leave blank to keep old): ")
+        email = input("New Email (Leave blank to keep old): ")
+        address = input("New Address (Leave blank to keep old): ")
+
+        if phone:
+            self.contacts[name]["Phone"] = phone
+
+        if email:
+            self.contacts[name]["Email"] = email
+
+        if address:
+            self.contacts[name]["Address"] = address
+
+        print("Contact updated successfully.")
+
+    def delete_contact(self):
+        print("\n========== DELETE CONTACT ==========")
+
+        name = input("Enter Contact Name : ").strip().title()
+
+        if name in self.contacts:
+            del self.contacts[name]
+            print("Contact deleted successfully.")
+        else:
+            print("Contact not found.")
+
+    def total_contacts(self):
+        print(f"\nTotal Contacts : {len(self.contacts)}")
+
+    def menu(self):
+
+        while True:
+
+            print("\n" + "=" * 50)
+            print("       CONTACT BOOK MANAGEMENT SYSTEM")
+            print("=" * 50)
+            print("1. Add Contact")
+            print("2. View All Contacts")
+            print("3. Search Contact")
+            print("4. Update Contact")
+            print("5. Delete Contact")
+            print("6. Total Contacts")
+            print("7. Exit")
+            print("=" * 50)
+
+            choice = input("Enter Your Choice : ")
+
+            if choice == "1":
+                self.add_contact()
+
+            elif choice == "2":
+                self.view_contacts()
+
+            elif choice == "3":
+                self.search_contact()
+
+            elif choice == "4":
+                self.update_contact()
+
+            elif choice == "5":
+                self.delete_contact()
+
+            elif choice == "6":
+                self.total_contacts()
+
+            elif choice == "7":
+                print("\nThank you for using Contact Book.")
+                break
+
+            else:
+                print("Invalid Choice! Try Again.")
+
+
+if __name__ == "__main__":
+    os.system("cls" if os.name == "nt" else "clear")
+    app = ContactBook()
+    app.menu()
