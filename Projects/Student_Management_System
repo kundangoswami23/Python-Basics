@@ -1,1 +1,160 @@
+import random
 
+
+class QuizGame:
+
+    def __init__(self):
+        self.score = 0
+
+        self.questions = [
+            {
+                "question": "Which language is known as the Father of Programming Languages?",
+                "options": ["A. C", "B. FORTRAN", "C. Python", "D. Java"],
+                "answer": "B"
+            },
+            {
+                "question": "Who developed Python?",
+                "options": ["A. Dennis Ritchie", "B. James Gosling", "C. Guido van Rossum", "D. Elon Musk"],
+                "answer": "C"
+            },
+            {
+                "question": "Which keyword is used to define a function in Python?",
+                "options": ["A. function", "B. define", "C. def", "D. func"],
+                "answer": "C"
+            },
+            {
+                "question": "Which symbol is used for comments in Python?",
+                "options": ["A. //", "B. <!-- -->", "C. #", "D. **"],
+                "answer": "C"
+            },
+            {
+                "question": "Which data type is immutable?",
+                "options": ["A. List", "B. Dictionary", "C. Set", "D. Tuple"],
+                "answer": "D"
+            },
+            {
+                "question": "Which company developed the C language?",
+                "options": ["A. Microsoft", "B. Bell Labs", "C. Google", "D. IBM"],
+                "answer": "B"
+            },
+            {
+                "question": "Which operator is used for exponentiation in Python?",
+                "options": ["A. ^", "B. **", "C. //", "D. %%"],
+                "answer": "B"
+            },
+            {
+                "question": "Which function is used to display output in Python?",
+                "options": ["A. show()", "B. echo()", "C. print()", "D. output()"],
+                "answer": "C"
+            },
+            {
+                "question": "Which keyword is used for loops that repeat while a condition is true?",
+                "options": ["A. for", "B. repeat", "C. while", "D. loop"],
+                "answer": "C"
+            },
+            {
+                "question": "What is the extension of Python files?",
+                "options": ["A. .java", "B. .cpp", "C. .py", "D. .html"],
+                "answer": "C"
+            }
+        ]
+
+    def play_quiz(self):
+
+        self.score = 0
+
+        random.shuffle(self.questions)
+
+        print("\n" + "=" * 60)
+        print("            PYTHON QUIZ GAME")
+        print("=" * 60)
+
+        for i, q in enumerate(self.questions, start=1):
+
+            print(f"\nQuestion {i}")
+            print(q["question"])
+
+            for option in q["options"]:
+                print(option)
+
+            answer = input("Your Answer (A/B/C/D): ").upper()
+
+            if answer == q["answer"]:
+                print("Correct!")
+                self.score += 1
+            else:
+                print(f"Wrong! Correct Answer: {q['answer']}")
+
+        self.show_result()
+
+    def show_result(self):
+
+        print("\n" + "=" * 60)
+        print("               QUIZ RESULT")
+        print("=" * 60)
+
+        print(f"Score : {self.score}/{len(self.questions)}")
+
+        percentage = (self.score / len(self.questions)) * 100
+
+        print(f"Percentage : {percentage:.2f}%")
+
+        if percentage >= 90:
+            print("Grade : A+")
+            print("Excellent!")
+
+        elif percentage >= 75:
+            print("Grade : A")
+            print("Very Good!")
+
+        elif percentage >= 60:
+            print("Grade : B")
+            print("Good Job!")
+
+        elif percentage >= 40:
+            print("Grade : C")
+            print("Keep Practicing!")
+
+        else:
+            print("Grade : F")
+            print("Better Luck Next Time!")
+
+    def rules(self):
+
+        print("\n========== QUIZ RULES ==========")
+        print("1. There are 10 multiple-choice questions.")
+        print("2. Each correct answer gives 1 mark.")
+        print("3. No negative marking.")
+        print("4. Enter only A, B, C or D.")
+
+    def menu(self):
+
+        while True:
+
+            print("\n" + "=" * 60)
+            print("          PROFESSIONAL QUIZ GAME")
+            print("=" * 60)
+            print("1. Start Quiz")
+            print("2. View Rules")
+            print("3. Exit")
+            print("=" * 60)
+
+            choice = input("Enter Your Choice: ")
+
+            if choice == "1":
+                self.play_quiz()
+
+            elif choice == "2":
+                self.rules()
+
+            elif choice == "3":
+                print("\nThank You For Playing!")
+                break
+
+            else:
+                print("Invalid Choice! Please Try Again.")
+
+
+if __name__ == "__main__":
+    game = QuizGame()
+    game.menu()
